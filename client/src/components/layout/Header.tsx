@@ -1,11 +1,27 @@
-import { Link } from "wouter";
-import { Phone, Clock, Menu } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { Phone, Clock, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [location] = useLocation();
+
+  const NAV_ITEMS = [
+    { label: "मुख्यपृष्ठ", href: "/" },
+    { label: "आपल गाव", href: "/about" },
+    { label: "पदाधिकारी", href: "/staff" },
+    { label: "विकास कामे", href: "/development" },
+    { label: "आरोग्य", href: "/health" },
+    { label: "शिक्षण", href: "/education" },
+    { label: "मार्गदर्शक सेवा", href: "/guidance" },
+    { label: "दिव्यांग नोंदणी", href: "/disabled-registration" },
+    { label: "वैद्यकीय मदत", href: "/medical-help" },
+  ];
+
+  const isActive = (path: string) => location === path;
 
   return (
     <header className="w-full font-sans">
@@ -16,7 +32,7 @@ export function Header() {
             <Clock className="h-3 w-3 md:h-4 md:w-4" />
             <span>कार्यालय वेळ: सोम-शुक्र ९.४५ ते ६.१५</span>
           </div>
-          <div className="flex-1 overflow-hidden mx-4 max-w-xl">
+          <div className="flex-1 overflow-hidden mx-4 max-w-xl hidden md:block">
             <div className="animate-marquee whitespace-nowrap">
               गाव हा विश्वाचा नकाशा | स्मार्ट जिल्हा | आदर्श गाव | तंटामुक्त गाव | निमगाव ग्रामपंचायत आपले सहर्ष स्वागत करीत आहे
             </div>
@@ -29,45 +45,55 @@ export function Header() {
 
       {/* Main Navigation */}
       <div className="bg-background border-b border-border shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Link href="/">
             <a className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-              <div className="h-12 w-12 bg-secondary rounded-full flex items-center justify-center text-secondary-foreground font-bold text-xl shadow-md">
+              <div className="h-10 w-10 md:h-12 md:w-12 bg-secondary rounded-full flex items-center justify-center text-secondary-foreground font-bold text-xl shadow-md shrink-0">
                 नि
               </div>
               <div className="flex flex-col">
-                <span className="text-2xl font-bold text-primary leading-tight">निमगाव</span>
-                <span className="text-sm text-muted-foreground font-medium">ग्रामपंचायत</span>
+                <span className="text-xl md:text-2xl font-bold text-primary leading-tight">निमगाव</span>
+                <span className="text-xs md:text-sm text-muted-foreground font-medium">ग्रामपंचायत</span>
               </div>
             </a>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8 font-medium text-foreground">
-            <Link href="/"><a className="hover:text-primary transition-colors">मुख्यपृष्ठ</a></Link>
-            <Link href="#about"><a className="hover:text-primary transition-colors">गावाबद्दल</a></Link>
-            <Link href="#team"><a className="hover:text-primary transition-colors">पदाधिकारी</a></Link>
-            <Link href="#gallery"><a className="hover:text-primary transition-colors">गॅलरी</a></Link>
-            <Link href="#contact"><a className="hover:text-primary transition-colors">संपर्क</a></Link>
-            <Button variant="default" size="sm" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
-              तक्रार निवारण
-            </Button>
+          {/* Desktop Nav - Split into top links or dropdown if too many */}
+          <nav className="hidden xl:flex items-center gap-6 font-medium text-sm text-foreground">
+            {NAV_ITEMS.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <a className={cn(
+                  "hover:text-primary transition-colors py-2 border-b-2 border-transparent",
+                  isActive(item.href) ? "border-primary text-primary font-bold" : ""
+                )}>
+                  {item.label}
+                </a>
+              </Link>
+            ))}
           </nav>
 
           {/* Mobile Nav */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon" className="xl:hidden">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
-              <div className="flex flex-col gap-6 mt-8 font-medium">
-                <Link href="/"><a onClick={() => setIsOpen(false)} className="text-lg hover:text-primary">मुख्यपृष्ठ</a></Link>
-                <Link href="#about"><a onClick={() => setIsOpen(false)} className="text-lg hover:text-primary">गावाबद्दल</a></Link>
-                <Link href="#team"><a onClick={() => setIsOpen(false)} className="text-lg hover:text-primary">पदाधिकारी</a></Link>
-                <Link href="#gallery"><a onClick={() => setIsOpen(false)} className="text-lg hover:text-primary">गॅलरी</a></Link>
-                <Link href="#contact"><a onClick={() => setIsOpen(false)} className="text-lg hover:text-primary">संपर्क</a></Link>
+            <SheetContent side="right" className="w-[300px] sm:w-[350px]">
+              <div className="flex flex-col gap-2 mt-8 font-medium">
+                {NAV_ITEMS.map((item) => (
+                  <Link key={item.href} href={item.href}>
+                    <a 
+                      onClick={() => setIsOpen(false)} 
+                      className={cn(
+                        "text-lg px-4 py-3 rounded-md hover:bg-muted transition-colors",
+                        isActive(item.href) ? "bg-primary/10 text-primary font-bold" : ""
+                      )}
+                    >
+                      {item.label}
+                    </a>
+                  </Link>
+                ))}
               </div>
             </SheetContent>
           </Sheet>
