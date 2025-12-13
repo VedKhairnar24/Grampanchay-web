@@ -43,7 +43,7 @@
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
 
-  --font-sans: 'Mukta', sans-serif;
+  --font-sans: 'Noto Sans Devanagari', 'Mukta', system-ui;
   
   --radius: 0.5rem;
 

@@ -97,7 +97,7 @@ export default function DisabledRegistration() {
 
                 <div className="space-y-2">
                   <Label htmlFor="address">पत्ता</Label>
-                  <Textarea id="address" placeholder="मु. पो. निमगाव, ता. मालेगाव..." />
+                  <Textarea id="address" placeholder="मु. पो. भारदेनगर, ता. मालेगाव..." />
                 </div>
 
                 <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white mt-4">

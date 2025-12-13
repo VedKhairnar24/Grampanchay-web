@@ -39,7 +39,7 @@ export function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-4 border-b border-primary-foreground/30 pb-2 inline-block">संपर्क</h3>
             <address className="not-italic text-sm opacity-90 space-y-2">
-              <p>ग्रामपंचायत कार्यालय, निमगाव</p>
+              <p>ग्रामपंचायत कार्यालय, भारदेनगर</p>
               <p>ता. मालेगाव, जि. नाशिक</p>
               <p>महाराष्ट्र - ४२३१०५</p>
             </address>
@@ -47,7 +47,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-primary-foreground/20 pt-6 text-center text-sm opacity-70">
-          <p>&copy; {new Date().getFullYear()} ग्रामपंचायत निमगाव. सर्व हक्क राखीव.</p>
+          <p>&copy; {new Date().getFullYear()} ग्रामपंचायत भारदेनगर. सर्व हक्क राखीव.</p>
         </div>
       </div>
     </footer>

@@ -1,7 +1,16 @@
 import { Link, useLocation } from "wouter";
-import { Phone, Clock, Menu, X } from "lucide-react";
+import {
+  Phone,
+  Clock,
+  Menu,
+  FileText,
+  UserPlus,
+  Search,
+  LogIn,
+  ChevronDown,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -11,94 +20,145 @@ export function Header() {
 
   const NAV_ITEMS = [
     { label: "मुख्यपृष्ठ", href: "/" },
-    { label: "आपल गाव", href: "/about" },
-    { label: "पदाधिकारी", href: "/staff" },
-    { label: "विकास कामे", href: "/development" },
-    { label: "आरोग्य", href: "/health" },
+    {
+      label: "आपल गाव",
+      href: "/about",
+      children: [
+        { label: "गाव माहिती", href: "/about" },
+        { label: "गॅलरी", href: "/about#gallery" },
+      ],
+    },
+    { label: "पदाधिकारी व सेवकवर्ग", href: "/staff" },
+    { label: "विकास कामे माहिती", href: "/development" },
+    {
+      label: "मार्गदर्शक सेवा",
+      href: "/guidance",
+      children: [
+        { label: "सेवा 1", href: "/guidance#1" },
+        { label: "सेवा 2", href: "/guidance#2" },
+      ],
+    },
+    {
+      label: "आरोग्य सेवा",
+      href: "/health",
+      children: [
+        { label: "आरोग्य केंद्र", href: "/health" },
+        { label: "वैद्यकीय मदत", href: "/medical-help" },
+      ],
+    },
     { label: "शिक्षण", href: "/education" },
-    { label: "मार्गदर्शक सेवा", href: "/guidance" },
-    { label: "दिव्यांग नोंदणी", href: "/disabled-registration" },
-    { label: "वैद्यकीय मदत", href: "/medical-help" },
+    { label: "वैद्यकीय मदत कक्ष", href: "/medical-help" },
+    { label: "तक्रार नोंदणी", href: "/complaints" },
   ];
 
-  const isActive = (path: string) => location === path;
+  const isActive = (path?: string) => location === path;
 
   return (
     <header className="w-full font-sans">
-      {/* Top Bar - Marquee & Info */}
-      <div className="bg-primary text-primary-foreground py-2 px-4 text-sm">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
-          <div className="flex items-center gap-2 text-xs md:text-sm">
-            <Clock className="h-3 w-3 md:h-4 md:w-4" />
+
+      {/* Top Info Bar */}
+      <div className="bg-primary text-primary-foreground px-4 py-2 text-sm">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
             <span>कार्यालय वेळ: सोम-शुक्र ९.४५ ते ६.१५</span>
           </div>
-          <div className="flex-1 overflow-hidden mx-4 max-w-xl hidden md:block">
-            <div className="animate-marquee whitespace-nowrap">
-              गाव हा विश्वाचा नकाशा | स्मार्ट जिल्हा | आदर्श गाव | तंटामुक्त गाव | निमगाव ग्रामपंचायत आपले सहर्ष स्वागत करीत आहे
-            </div>
-          </div>
-          <div className="hidden md:flex items-center gap-4 text-xs md:text-sm">
-            <span>शासकीय सुट्टी: शनिवार व रविवार</span>
-          </div>
+          <span className="hidden md:block">
+            शनिवार व रविवार शासकीय सुट्टी
+          </span>
         </div>
       </div>
 
-      {/* Main Navigation */}
-      <div className="bg-background border-b border-border shadow-sm sticky top-0 z-50">
+      {/* Logo Section */}
+      <div className="bg-white border-b">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Link href="/">
-            <a className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-              <div className="h-10 w-10 md:h-12 md:w-12 bg-secondary rounded-full flex items-center justify-center text-secondary-foreground font-bold text-xl shadow-md shrink-0">
-                नि
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl md:text-2xl font-bold text-primary leading-tight">निमगाव</span>
-                <span className="text-xs md:text-sm text-muted-foreground font-medium">ग्रामपंचायत</span>
+            <a className="flex items-center gap-3">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Seal_of_Maharashtra.svg/500px-Seal_of_Maharashtra.svg.png"
+                className="h-14 w-14 rounded-full"
+                alt="Seal"
+              />
+              <div>
+                <h1 className="text-lg font-semibold text-blue-900">
+                  ग्रामपंचायत कार्यालय, भारदेनगर
+                </h1>
+                <p className="text-sm text-slate-600">
+                  पंचायत समिती, मालेगाव, जि. नाशिक
+                </p>
               </div>
             </a>
           </Link>
 
-          {/* Desktop Nav - Split into top links or dropdown if too many */}
-          <nav className="hidden xl:flex items-center gap-6 font-medium text-sm text-foreground">
-            {NAV_ITEMS.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <a className={cn(
-                  "hover:text-primary transition-colors py-2 border-b-2 border-transparent",
-                  isActive(item.href) ? "border-primary text-primary font-bold" : ""
-                )}>
-                  {item.label}
-                </a>
-              </Link>
-            ))}
-          </nav>
+          {/* Desktop Buttons */}
+          <div className="hidden md:flex gap-2">
+            <Button size="sm"><FileText className="h-4 w-4 mr-1" /> अर्ज</Button>
+            <Button size="sm"><UserPlus className="h-4 w-4 mr-1" /> नोंदणी</Button>
+            <Button size="sm"><Search className="h-4 w-4 mr-1" /> हेल्पलाईन</Button>
+            <Button size="sm"><LogIn className="h-4 w-4 mr-1" /> लॉगिन</Button>
+          </div>
 
-          {/* Mobile Nav */}
+          {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="xl:hidden">
-                <Menu className="h-6 w-6" />
-              </Button>
+            <SheetTrigger className="md:hidden">
+              <Menu className="h-6 w-6" />
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[350px]">
-              <div className="flex flex-col gap-2 mt-8 font-medium">
-                {NAV_ITEMS.map((item) => (
-                  <Link key={item.href} href={item.href}>
-                    <a 
-                      onClick={() => setIsOpen(false)} 
+            <SheetContent side="right">
+              {NAV_ITEMS.map(item => (
+                <Link key={item.label} href={item.href || "#"}>
+                  <a
+                    onClick={() => setIsOpen(false)}
+                    className="block py-3 text-lg border-b"
+                  >
+                    {item.label}
+                  </a>
+                </Link>
+              ))}
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+
+      {/* Sticky Navigation */}
+      <div className="bg-slate-900 sticky top-0 z-50">
+        <nav className="container mx-auto px-4 flex justify-center h-14">
+          <ul className="hidden lg:flex gap-6 items-center text-sm text-white">
+            {NAV_ITEMS.map(item =>
+              item.children ? (
+                <li key={item.label} className="relative group">
+                  <span className="flex items-center gap-1 cursor-pointer px-3 py-2 hover:bg-slate-800">
+                    {item.label}
+                    <ChevronDown className="h-4 w-4" />
+                  </span>
+                  <div className="absolute top-full left-0 bg-white text-black rounded shadow-md hidden group-hover:block min-w-[200px]">
+                    {item.children.map(child => (
+                      <Link key={child.href} href={child.href}>
+                        <a className="block px-4 py-2 hover:bg-slate-100">
+                          {child.label}
+                        </a>
+                      </Link>
+                    ))}
+                  </div>
+                </li>
+              ) : (
+                <li key={item.label}>
+                  <Link href={item.href || "#"}>
+                    <a
                       className={cn(
-                        "text-lg px-4 py-3 rounded-md hover:bg-muted transition-colors",
-                        isActive(item.href) ? "bg-primary/10 text-primary font-bold" : ""
+                        "px-3 py-2 hover:bg-slate-800",
+                        isActive(item.href) && "border-b-2 border-sky-400"
                       )}
                     >
                       {item.label}
                     </a>
                   </Link>
-                ))}
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+                </li>
+              )
+            )}
+          </ul>
+        </nav>
       </div>
+
     </header>
   );
 }

@@ -11,7 +11,7 @@ export default function About() {
         <div className="bg-primary text-primary-foreground py-12 relative overflow-hidden">
           <div className="absolute inset-0 bg-black/20 z-0"></div>
           <div className="container mx-auto px-4 relative z-10 text-center">
-            <h1 className="text-4xl font-bold mb-4">आपल गाव - निमगाव</h1>
+            <h1 className="text-4xl font-bold mb-4">आपल गाव - भारदेनगर</h1>
             <p className="text-xl opacity-90">ऐतिहासिक वारसा आणि आधुनिक विकासाचा संगम</p>
           </div>
         </div>
@@ -27,7 +27,7 @@ export default function About() {
                   परिचय
                 </h2>
                 <p>
-                  निमगाव (Nimgaon) हे नाशिक जिल्ह्यातील मालेगाव तालुक्यात असलेले एक प्रमुख गाव आहे. 
+                  भारदेनगर (Bharadenagar) हे नाशिक जिल्ह्यातील मालेगाव तालुक्यात असलेले एक प्रमुख गाव आहे. 
                   हे गाव मालेगाव उपजिल्हा मुख्यालयापासून सुमारे २० किमी आणि जिल्हा मुख्यालय नाशिकपासून सुमारे १२५ किमी अंतरावर वसलेले आहे.
                   नैसर्गिक सौंदर्याने नटलेले हे गाव आपल्या शांत आणि सलोख्याच्या वातावरणासाठी ओळखले जाते.
                 </p>
@@ -112,9 +112,9 @@ export default function About() {
               </div>
 
               <div className="rounded-xl overflow-hidden shadow-md">
-                <img src={landscapeImage} alt="Nimgaon Landscape" className="w-full h-auto object-cover" />
+                <img src={landscapeImage} alt="Bharadenagar Landscape" className="w-full h-auto object-cover" />
                 <div className="bg-primary p-4 text-primary-foreground text-center">
-                  <p className="font-medium">निमगाव - निसर्गाच्या कुशीत</p>
+                  <p className="font-medium">भारदेनगर - निसर्गाच्या कुशीत</p>
                 </div>
               </div>
             </div>

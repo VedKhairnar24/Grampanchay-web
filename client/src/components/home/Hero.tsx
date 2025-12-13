@@ -23,7 +23,7 @@ export function Hero() {
             नाशिक जिल्हा, मालेगाव तालुका
           </span>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-            निमगाव ग्रामपंचायत
+            भारदेनगर ग्रामपंचायत
           </h1>
           <p className="text-lg md:text-2xl max-w-3xl mx-auto opacity-90 font-light leading-relaxed">
             "गाव हा विश्वाचा नकाशा | गाव वरून देशाची परीक्षा | गावाची भंगता अवदेशा | येईल देशा"

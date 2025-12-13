@@ -13,7 +13,7 @@ export function MapSection() {
           <div className="aspect-video w-full rounded-lg overflow-hidden relative bg-muted flex items-center justify-center">
             {/* Placeholder for Google Map - using an iframe for a real location would be ideal, but for now we use a visual placeholder or a generic iframe */}
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.186646399436!2d74.5298!3d20.5579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bzm65!2sNimgaon!5e0!3m2!1sen!2sin!4v1625648935215!5m2!1sen!2sin" 
+              src="https://www.google.com/maps?q=20.7905449,74.6224755&z=15&output=embed"
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
@@ -25,7 +25,7 @@ export function MapSection() {
             <div className="absolute bottom-4 left-4 bg-white/90 p-3 rounded-lg shadow-lg backdrop-blur-sm">
               <div className="flex items-center gap-2 font-bold text-primary">
                 <MapPin className="h-5 w-5 text-secondary" />
-                निमगाव ग्रामपंचायत
+                भारदेनगर ग्रामपंचायत
               </div>
               <p className="text-xs text-muted-foreground ml-7">ता. मालेगाव, जि. नाशिक</p>
             </div>
