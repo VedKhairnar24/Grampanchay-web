@@ -11,10 +11,11 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export function Header() {
+  const headerRef = useRef<HTMLElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
 
@@ -53,8 +54,28 @@ export function Header() {
 
   const isActive = (path?: string) => location === path;
 
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el || typeof document === "undefined") return;
+
+    const setHeight = () => {
+      const h = el.getBoundingClientRect().height;
+      document.documentElement.style.setProperty("--site-header-height", `${h}px`);
+    };
+
+    setHeight();
+    const ro = new ResizeObserver(setHeight);
+    ro.observe(el);
+    window.addEventListener("resize", setHeight);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", setHeight);
+      document.documentElement.style.removeProperty("--site-header-height");
+    };
+  }, []);
+
   return (
-    <header className="w-full font-sans">
+    <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 w-full font-sans backdrop-blur-sm" role="banner" aria-label="Site header">
 
       {/* Top Info Bar */}
       <div className="bg-primary text-primary-foreground px-4 py-2 text-sm">
@@ -120,7 +141,7 @@ export function Header() {
       </div>
 
       {/* Sticky Navigation */}
-      <div className="bg-slate-900 sticky top-0 z-50">
+      <div className="bg-slate-900/95 sticky top-0 z-50 backdrop-blur-sm shadow-sm">
         <nav className="container mx-auto px-4 flex justify-center h-14">
           <ul className="hidden lg:flex gap-6 items-center text-sm text-white">
             {NAV_ITEMS.map(item =>
@@ -158,6 +179,8 @@ export function Header() {
           </ul>
         </nav>
       </div>
+
+      {/* No manual spacer required; --site-header-height variable (set by header) controls main padding */}
 
     </header>
   );

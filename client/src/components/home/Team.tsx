@@ -1,14 +1,14 @@
 import { Users } from "lucide-react";
-import manImage from "@assets/stock_images/portrait_of_indian_v_dc021b2b.jpg";
-import womanImage from "@assets/stock_images/portrait_of_indian_v_2209ae8f.jpg";
+// Fall back to the provided silhouette image for uniform presentation
+const fallbackAvatar = "https://freesvg.org/img/cliente.png";
 
 const MEMBERS = [
-  { name: "जयश्री पांडुरंग बागुल", role: "सरपंच", image: womanImage },
-  { name: "आकाश मधुकर हिरे", role: "उपसरपंच", image: manImage },
-  { name: "योगिता विपुल नंदाळे", role: "सदस्य", image: womanImage },
-  { name: "भारती भावराव हिरे", role: "सदस्य", image: womanImage },
-  { name: "शरद कारभारी ठाकरे", role: "सदस्य", image: manImage },
-  { name: "उर्मिला अरुण पाटील", role: "सदस्य", image: womanImage },
+  { name: "जयश्री पांडुरंग बागुल", role: "सरपंच", image: fallbackAvatar },
+  { name: "आकाश मधुकर हिरे", role: "उपसरपंच", image: fallbackAvatar },
+  { name: "योगिता विपुल नंदाळे", role: "सदस्य", image: fallbackAvatar },
+  { name: "भारती भावराव हिरे", role: "सदस्य", image: fallbackAvatar },
+  { name: "शरद कारभारी ठाकरे", role: "सदस्य", image: fallbackAvatar },
+  { name: "उर्मिला अरुण पाटील", role: "सदस्य", image: fallbackAvatar },
 ];
 
 export function Team() {
@@ -27,10 +27,11 @@ export function Team() {
               key={idx} 
               className="group bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-border/50"
             >
-              <div className="aspect-[4/5] overflow-hidden relative">
+              <div className="aspect-[4/3] overflow-hidden relative">
                 <img 
                   src={member.image} 
                   alt={member.name} 
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">

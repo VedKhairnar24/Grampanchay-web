@@ -1,19 +1,18 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Users, User, Phone, Mail } from "lucide-react";
-import staffImage from "@assets/stock_images/indian_village_gram__9433fc83.jpg";
-import manImage from "@assets/stock_images/portrait_of_indian_v_dc021b2b.jpg";
-import womanImage from "@assets/stock_images/portrait_of_indian_v_2209ae8f.jpg";
+// Fallback silhouette/avatar design for members (4:3)
+const fallbackAvatar = "https://freesvg.org/img/cliente.png";
 
 const MEMBERS = [
-  { name: "जयश्री पांडुरंग बागुल", role: "सरपंच", image: womanImage, phone: "98xxxxxx01" },
-  { name: "आकाश मधुकर हिरे", role: "उपसरपंच", image: manImage, phone: "98xxxxxx02" },
-  { name: "योगिता विपुल नंदाळे", role: "सदस्य", image: womanImage, phone: "98xxxxxx03" },
-  { name: "भारती भावराव हिरे", role: "सदस्य", image: womanImage, phone: "98xxxxxx04" },
-  { name: "शरद कारभारी ठाकरे", role: "सदस्य", image: manImage, phone: "98xxxxxx05" },
-  { name: "उर्मिला अरुण पाटील", role: "सदस्य", image: womanImage, phone: "98xxxxxx06" },
-  { name: "सरला तुषार जगताप", role: "सदस्य", image: womanImage, phone: "98xxxxxx07" },
-  { name: "मनोज तुकाराम हिरे", role: "सदस्य", image: manImage, phone: "98xxxxxx08" },
+  { name: "जयश्री पांडुरंग बागुल", role: "सरपंच", image: fallbackAvatar, phone: "98xxxxxx01" },
+  { name: "आकाश मधुकर हिरे", role: "उपसरपंच", image: fallbackAvatar, phone: "98xxxxxx02" },
+  { name: "योगिता विपुल नंदाळे", role: "सदस्य", image: fallbackAvatar, phone: "98xxxxxx03" },
+  { name: "भारती भावराव हिरे", role: "सदस्य", image: fallbackAvatar, phone: "98xxxxxx04" },
+  { name: "शरद कारभारी ठाकरे", role: "सदस्य", image: fallbackAvatar, phone: "98xxxxxx05" },
+  { name: "उर्मिला अरुण पाटील", role: "सदस्य", image: fallbackAvatar, phone: "98xxxxxx06" },
+  { name: "सरला तुषार जगताप", role: "सदस्य", image: fallbackAvatar, phone: "98xxxxxx07" },
+  { name: "मनोज तुकाराम हिरे", role: "सदस्य", image: fallbackAvatar, phone: "98xxxxxx08" },
 ];
 
 const STAFF = [
@@ -50,10 +49,11 @@ export default function Staff() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {MEMBERS.map((member, idx) => (
                   <div key={idx} className="bg-card rounded-xl overflow-hidden shadow-sm border border-border group hover:shadow-md transition-all">
-                    <div className="aspect-[4/5] overflow-hidden">
+                    <div className="aspect-[4/3] overflow-hidden">
                       <img 
                         src={member.image} 
                         alt={member.name} 
+                        loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
