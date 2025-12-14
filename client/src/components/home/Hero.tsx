@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import heroImage from "@assets/stock_images/indian_village_lands_5cdf1fb5.jpg";
+const heroImage = "https://img-cdn.publive.online/filters:format(webp)/english-betterindia/media/post_attachments/uploads/2018/06/Junnar.jpg";
 
 export function Hero() {
   return (
