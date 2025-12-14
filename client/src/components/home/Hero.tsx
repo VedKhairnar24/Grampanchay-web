@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-const heroImage = "https://img-cdn.publive.online/filters:format(webp)/english-betterindia/media/post_attachments/uploads/2018/06/Junnar.jpg";
+const heroImage = "https://images.pexels.com/photos/33872281/pexels-photo-33872281.jpeg";
 
 export function Hero() {
   return (
