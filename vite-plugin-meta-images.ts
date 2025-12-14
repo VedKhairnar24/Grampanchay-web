@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * Vite plugin that updates og:image and twitter:image meta tags
- * to point to the app's opengraph image with the correct Replit domain.
+ * Vite plugin that updates `og:image` and `twitter:image` meta tags
+ * to point to the app's OpenGraph image with the detected deployment origin.
  */
 export function metaImagesPlugin(): Plugin {
   return {
@@ -12,7 +12,7 @@ export function metaImagesPlugin(): Plugin {
     transformIndexHtml(html) {
       const baseUrl = getDeploymentUrl();
       if (!baseUrl) {
-        log('[meta-images] no Replit deployment domain found, skipping meta tag updates');
+        log('[meta-images] no deployment domain found, skipping meta tag updates');
         return html;
       }
 
@@ -55,16 +55,37 @@ export function metaImagesPlugin(): Plugin {
   };
 }
 
+function ensureUrlWithProtocol(value: string) {
+  if (/^https?:\/\//i.test(value)) return value;
+  return `https://${value}`;
+}
+
 function getDeploymentUrl(): string | null {
+  // Keep backward compatibility with Replit vars if present
   if (process.env.REPLIT_INTERNAL_APP_DOMAIN) {
-    const url = `https://${process.env.REPLIT_INTERNAL_APP_DOMAIN}`;
+    const url = ensureUrlWithProtocol(process.env.REPLIT_INTERNAL_APP_DOMAIN);
     log('[meta-images] using internal app domain:', url);
     return url;
   }
 
   if (process.env.REPLIT_DEV_DOMAIN) {
-    const url = `https://${process.env.REPLIT_DEV_DOMAIN}`;
+    const url = ensureUrlWithProtocol(process.env.REPLIT_DEV_DOMAIN);
     log('[meta-images] using dev domain:', url);
+    return url;
+  }
+
+  // Vercel sets `VERCEL_URL` without protocol
+  if (process.env.VERCEL_URL) {
+    const url = ensureUrlWithProtocol(process.env.VERCEL_URL);
+    log('[meta-images] using Vercel URL:', url);
+    return url;
+  }
+
+  // Common generic vars used by various hosts
+  const generic = process.env.PUBLIC_URL || process.env.SITE_URL || process.env.DEPLOYMENT_URL || process.env.APP_URL;
+  if (generic) {
+    const url = ensureUrlWithProtocol(generic);
+    log('[meta-images] using generic deployment URL:', url);
     return url;
   }
 
