@@ -1,0 +1,9 @@
+function success(res, data = {}, meta = {}) {
+  return res.json({ success: true, data, meta });
+}
+
+function error(res, status = 500, message = 'Internal Server Error') {
+  return res.status(status).json({ success: false, error: { message } });
+}
+
+module.exports = { success, error };
