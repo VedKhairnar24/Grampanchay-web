@@ -51,10 +51,9 @@ vercel env add PORT production
 - If you are deploying only the static client built to `dist`, the above settings are sufficient.
 - If you ran into an error on Vercel where the build appears to stop during `transforming...` or the deploy fails, try the following:
   - Set the **Output Directory** in the Vercel project settings to `dist/public`.
-  - Keep the **Build Command** as `npm run build` (this runs `tsx script/build.ts` which builds client and server).
+  - Keep the **Build Command** as `npm run build` (builds the client).
   - Vercel's static deploy will then pick up `dist/public` and serve the SPA.
-  - If you need server-side API endpoints, convert the Express `server/` routes into Vercel Serverless Functions under `api/`, or deploy the backend separately (Railway, Render, etc.). Vercel does not run a long-running Express process by default.
-- If you want to deploy the Express server in `server/` as part of the Vercel project, you will need to convert endpoints to Vercel Serverless Functions (in `api/`) or deploy the backend separately (e.g., a VM, Railway, Render, or a separate Vercel project configured for server processes). I can help with either approach.
+  - This repository is client-only; for server-side API endpoints deploy them separately or add serverless functions under `api/`.
   - If your build emits very large JS chunks (see `vite` warnings about >500 kB), consider code-splitting or manual chunking to reduce initial bundle sizes and improve performance.
 
 ## After Import
