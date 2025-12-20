@@ -1,12 +1,13 @@
-const express = require('express');
+import express from "express";
+import cors from "cors";
+import { errorHandler } from "../../../shared/middleware/error.middleware.js";
 
-function createApp() {
-  const app = express();
-  app.use(express.json());
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'staff-service' }));
+app.get('/health', (req, res) => res.json({ status: 'ok', service: 'staff-service' }));
 
-  return app;
-}
+app.use(errorHandler);
 
-module.exports = createApp;
+export default app;
