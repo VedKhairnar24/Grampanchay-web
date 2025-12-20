@@ -1,99 +1,47 @@
 # Gram Panchayat Website — Bharadenagar
 
-Brief, accessible website for the Bharadenagar Gram Panchayat built with Vite + React + TypeScript.
+Brief, accessible website for the Bharadenagar Gram Panchayat built with Vite + React + TypeScript and Node.js + Express backend.
 
-**Quick links**
-- Local dev: `npm run dev`
-- Build: `npm run build`
-- Preview production build: `npm run preview`
-- Type check: `npm run check`
+## Project Structure
 
-## About
+This repository uses a simple two-folder structure:
 
-This repository contains the frontend for the Gram Panchayat website (client) and supporting configuration and schema files. It's intended to be lightweight, mobile-first, and accessible while providing a small CMS-like collection of pages and UI components for community information and services.
+- `client/` — Frontend application (Vite + React + TypeScript)
+- `server/` — Backend API server (Node.js + Express + MongoDB)
 
-## Key functions / features
+## Tech Stack
+
+### Frontend
+- React + TypeScript (Vite)
+- Tailwind CSS for styling
+- Radix UI components + various utility libraries (framer-motion, lucide-react, recharts, etc.)
+- `@tanstack/react-query` for client data fetching
+- `react-hook-form` + `zod` for form validation
+
+### Backend
+- Node.js + Express
+- MongoDB Atlas
+- JWT Authentication
+- Swagger API documentation
+
+## Key Features
 
 - Public pages: Home, About, Health, Education, Development, Guidance, Staff, Medical Help, Disabled Registration and a 404 page.
 - Hero, Gallery and informational sections for village data and announcements.
 - Interactive Map section for locations and contacts.
 - Stats and simple charts for metrics and community figures.
-- Reusable UI primitives and accessibility-focused components (radix-based components and design system tokens).
-- Client-side data querying with `@tanstack/react-query` and form validation with `react-hook-form` + `zod`.
+- Admin panel for content management.
+- RESTful API with authentication and authorization.
 
-## Tech stack
+## Setup (Local Development)
 
-- React + TypeScript (Vite)
-- Tailwind CSS for styling
-- Radix UI components + various utility libraries (framer-motion, lucide-react, recharts, etc.)
-- `@tanstack/react-query` for client data fetching
+### Prerequisites
+- Node.js 18+
 
-## System Architecture
-
-### Gram Panchayat Web System – Microservices Architecture
-
-Designed and developed a microservices-based web application for a Gram Panchayat using React, Node.js, MongoDB, and JWT authentication. The system follows an API Gateway pattern with independent services for authentication, content management, staff management, and public form handling. MongoDB Atlas is used as a cloud database, while services are deployed independently on Render and the frontend on Vercel. The architecture ensures scalability, security, and clean separation of concerns.
-
-#### Technologies
-
-*   React + TypeScript
-*   Node.js + Express
-*   MongoDB Atlas
-*   JWT Authentication
-*   Microservices + API Gateway
-*   Render & Vercel (Cloud Deployment)
-
-## Monorepo services (new)
-
-This repository uses the following top-level layout:
-
-- `client/` — frontend application (Vite + React), build and deploy to Vercel
-- `services/` — backend microservices (deploy separately, e.g., Render)
-    - `api-gateway`
-    - `auth-service`
-    - `content-service`
-    - `forms-service`
-    - `staff-service`
-- `shared/` — shared utilities, constants and validation used by services
-- `docs/` — documentation and archived assets
-
-Notes:
-- Internal client tooling (Vite config, postcss, plugins) lives inside `client/`.
-- Archived server backup and scripts are in `docs/archives/`.
-- Each service is independent and manages its own `package.json` and dependencies.
-
-## File structure (high level)
-
-Root (high-level):
-
-- `client/` — Frontend application
-	- `index.html`, `main.tsx`, `App.tsx`
-	- `src/`
-		- `components/`
-			- `home/` — `Hero.tsx`, `Gallery.tsx`, `InfoSection.tsx`, `MapSection.tsx`, `Stats.tsx`, `Team.tsx`
-			- `layout/` — `Header.tsx`, `Footer.tsx`, `ScrollToTop.tsx`
-			- `ui/` — many reusable UI building blocks (buttons, dialogs, forms, cards, etc.)
-		- `hooks/` — `use-mobile.tsx`, `use-toast.ts`
-		- `lib/` — `queryClient.ts`, `utils.ts`
-		- `pages/` — `Home.tsx`, `About.tsx`, `Health.tsx`, `Education.tsx`, `Development.tsx`, `Guidance.tsx`, `MedicalHelp.tsx`, `DisabledRegistration.tsx`, `Staff.tsx`, `not-found.tsx`
-
-- `services/` - Backend microservices.
-- Archived backend artifacts (database schema, etc.) moved to `server-backup/`.
-- `docs/` — village information (example: `Bharadenagar_Village_Info.md`)
-- `client/attached_assets/` — images and static assets (moved from root)
-- config: `drizzle.config.ts`, `vite.config.ts`, `postcss.config.js`, `tailwind` configs
-
-If you'd like a more detailed file tree exported (JSON or tree format), I can add that as a separate `docs/FILES.md`.
-
-## Setup (local development)
-
-Prerequisites:
-
-- Node.js 18+ (see `engines.node` in `package.json`)
-
-Commands:
+### Frontend Setup
 
 ```bash
+cd client
 npm install
 npm run dev      # start Vite dev server (default http://localhost:5173)
 npm run build    # produce production dist/
@@ -101,21 +49,80 @@ npm run preview  # locally preview the production build
 npm run check    # run TypeScript type check
 ```
 
-## CI and Deployment
+### Backend Setup
 
-- CI: The repository contains a GitHub Actions workflow that runs builds and checks on `push`/PR to `main`.
-- Vercel: See `VERCEL_HOSTING.md` for deployment notes specific to Vercel.
+```bash
+cd server
+npm install
+# Create .env file with required environment variables (see server/README.md)
+npm run dev      # start server in development mode (default http://localhost:5000)
+npm start        # start server in production mode
+```
 
-## Contributing
+### Environment Variables
 
-- Follow the existing code style and run `npm run check` before opening a PR.
-- For UI work, add components under `client/src/components/ui/` and document usage in a small story snippet or example page.
+Create a `.env` file in the `server/` folder with:
 
-## Notes for developers
+```
+MONGODB_URI=your-mongodb-connection-string
+JWT_SECRET=your-jwt-secret-key
+CLIENT_URL=http://localhost:5173
+PORT=5000
+NODE_ENV=development
+```
 
-- To add a new page: create a `.tsx` file in `client/src/pages/`, add a route in the routing config (see `App.tsx`) and create any local components under `components/` as needed.
-- Use `queryClient` from `client/src/lib/queryClient.ts` to keep data fetching consistent.
-- Keep component props typed; prefer `zod` schemas for form validation.
+See `server/README.md` for detailed environment variable documentation.
+
+## API Endpoints
+
+- `GET /` - Health check
+- `GET /health` - Health check with service info
+- `GET /api-docs` - Swagger API documentation
+
+### Authentication
+- `POST /api/auth/login` - Admin login
+
+### Content
+- `GET /api/content/` - Get all announcements
+- `POST /api/content/` - Create announcement (requires admin auth)
+
+### Forms
+- `POST /api/forms/disabled` - Submit disabled registration form
+
+### Staff
+- `GET /api/staff/health` - Staff service health check
+
+## File Structure
+
+```
+.
+├── client/              # Frontend application
+│   ├── src/
+│   │   ├── components/ # React components
+│   │   ├── pages/      # Page components
+│   │   ├── hooks/      # Custom React hooks
+│   │   └── lib/        # Utilities and configuration
+│   └── package.json
+│
+└── server/             # Backend API server
+    ├── src/
+    │   ├── routes/     # API routes
+    │   ├── controllers/# Route controllers
+    │   ├── models/     # MongoDB models
+    │   ├── middleware/ # Express middleware
+    │   ├── utils/      # Utility functions
+    │   ├── validation/ # Zod validation schemas
+    │   └── constants/  # Constants
+    ├── .env            # Environment variables
+    └── package.json
+```
+
+## Development Notes
+
+- Frontend runs on `http://localhost:5173` (Vite default)
+- Backend runs on `http://localhost:5000` (configurable via PORT env var)
+- All API routes are prefixed with `/api`
+- Swagger documentation available at `/api-docs` when server is running
 
 ## License
 
