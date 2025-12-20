@@ -113,10 +113,26 @@ export function Header() {
 
           {/* Desktop Buttons */}
           <div className="hidden md:flex gap-2">
-            <Button size="sm"><FileText className="h-4 w-4 mr-1" /> अर्ज</Button>
-            <Button size="sm"><UserPlus className="h-4 w-4 mr-1" /> नोंदणी</Button>
-            <Button size="sm"><Search className="h-4 w-4 mr-1" /> हेल्पलाईन</Button>
-            <Button size="sm"><LogIn className="h-4 w-4 mr-1" /> लॉगिन</Button>
+            <Link href="/disabled-registration">
+              <Button size="sm" className="cursor-pointer">
+                <FileText className="h-4 w-4 mr-1" /> अर्ज
+              </Button>
+            </Link>
+            <Link href="/disabled-registration">
+              <Button size="sm" className="cursor-pointer">
+                <UserPlus className="h-4 w-4 mr-1" /> नोंदणी
+              </Button>
+            </Link>
+            <Link href="/medical-help">
+              <Button size="sm" className="cursor-pointer">
+                <Search className="h-4 w-4 mr-1" /> हेल्पलाईन
+              </Button>
+            </Link>
+            <Link href="/admin/login">
+              <Button size="sm" className="cursor-pointer">
+                <LogIn className="h-4 w-4 mr-1" /> लॉगिन
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu */}

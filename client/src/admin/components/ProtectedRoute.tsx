@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation } from 'wouter';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -7,7 +7,19 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const token = localStorage.getItem('token');
-  return token ? <>{children}</> : <Navigate to="/admin/login" />;
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (!token) {
+      setLocation('/admin/login');
+    }
+  }, [token, setLocation]);
+
+  if (!token) {
+    return null;
+  }
+
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

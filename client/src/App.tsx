@@ -14,6 +14,13 @@ import Guidance from "@/pages/Guidance";
 import DisabledRegistration from "@/pages/DisabledRegistration";
 import MedicalHelp from "@/pages/MedicalHelp";
 import NotFound from "@/pages/not-found";
+import Login from "@/admin/pages/Login";
+import Dashboard from "@/admin/pages/Dashboard";
+import Announcements from "@/admin/pages/Announcements";
+import Forms from "@/admin/pages/Forms";
+import StaffAdmin from "@/admin/pages/Staff";
+import AdminLayout from "@/admin/components/AdminLayout";
+import ProtectedRoute from "@/admin/components/ProtectedRoute";
 
 function Router() {
   return (
@@ -27,6 +34,43 @@ function Router() {
       <Route path="/guidance" component={Guidance} />
       <Route path="/disabled-registration" component={DisabledRegistration} />
       <Route path="/medical-help" component={MedicalHelp} />
+      <Route path="/admin/login" component={Login} />
+      <Route path="/admin/dashboard">
+        {() => (
+          <ProtectedRoute>
+            <AdminLayout>
+              <Dashboard />
+            </AdminLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/admin/announcements">
+        {() => (
+          <ProtectedRoute>
+            <AdminLayout>
+              <Announcements />
+            </AdminLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/admin/forms">
+        {() => (
+          <ProtectedRoute>
+            <AdminLayout>
+              <Forms />
+            </AdminLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/admin/staff">
+        {() => (
+          <ProtectedRoute>
+            <AdminLayout>
+              <StaffAdmin />
+            </AdminLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
       <Route component={NotFound} />
     </Switch>
   );

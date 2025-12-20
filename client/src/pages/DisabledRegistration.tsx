@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Accessibility, FileCheck, HeartHandshake } from "lucide-react";
@@ -5,8 +6,41 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import api from "@/lib/api";
 
 export default function DisabledRegistration() {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    address: "",
+    disabilityType: "",
+    contactNumber: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitSuccess(false);
+
+    try {
+      await api.post("/forms/disabled", formData);
+      setSubmitSuccess(true);
+      setFormData({
+        fullName: "",
+        address: "",
+        disabilityType: "",
+        contactNumber: "",
+      });
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      const message = error.response?.data?.message || "Failed to submit form. Please try again.";
+      alert(message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
     <div className="min-h-screen flex flex-col font-sans bg-background text-foreground">
       <Header />
@@ -68,40 +102,64 @@ export default function DisabledRegistration() {
                 <FileCheck className="h-6 w-6" />
                 नवीन नोंदणी अर्ज
               </h2>
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">नाव</Label>
-                    <Input id="firstName" placeholder="प्रथम नाव" />
+              <form className="space-y-4" onSubmit={handleSubmit}>
+                {submitSuccess && (
+                  <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    अर्ज यशस्वीरित्या जमा झाला! आम्ही लवकरच तुमच्याशी संपर्क साधू.
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">आडनाव</Label>
-                    <Input id="lastName" placeholder="आडनाव" />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="aadhar">आधार क्रमांक</Label>
-                  <Input id="aadhar" placeholder="xxxx-xxxx-xxxx" />
-                </div>
+                )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="disabilityType">अपंगत्वाचा प्रकार</Label>
-                  <Input id="disabilityType" placeholder="उदा. अस्थिव्यंग, कर्णबधिर..." />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="percentage">टक्केवारी (%)</Label>
-                  <Input id="percentage" placeholder="40%" />
+                  <Label htmlFor="fullName">पूर्ण नाव</Label>
+                  <Input
+                    id="fullName"
+                    placeholder="पूर्ण नाव"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    required
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="address">पत्ता</Label>
-                  <Textarea id="address" placeholder="मु. पो. भारदेनगर, ता. मालेगाव..." />
+                  <Textarea
+                    id="address"
+                    placeholder="मु. पो. भारदेनगर, ता. मालेगाव..."
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    required
+                  />
                 </div>
 
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white mt-4">
-                  अर्ज जमा करा
+                <div className="space-y-2">
+                  <Label htmlFor="disabilityType">अपंगत्वाचा प्रकार</Label>
+                  <Input
+                    id="disabilityType"
+                    placeholder="उदा. अस्थिव्यंग, कर्णबधिर..."
+                    value={formData.disabilityType}
+                    onChange={(e) => setFormData({ ...formData, disabilityType: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="contactNumber">संपर्क क्रमांक</Label>
+                  <Input
+                    id="contactNumber"
+                    type="tel"
+                    placeholder="९८७६५४३२१०"
+                    value={formData.contactNumber}
+                    onChange={(e) => setFormData({ ...formData, contactNumber: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-primary hover:bg-primary/90 text-white mt-4"
+                  disabled={submitting}
+                >
+                  {submitting ? "जमा होत आहे..." : "अर्ज जमा करा"}
                 </Button>
                 <p className="text-xs text-center text-muted-foreground mt-2">
                   * हा अर्ज फक्त प्राथमिक माहितीसाठी आहे. अंतिम नोंदणीसाठी ग्रामपंचायत कार्यालयास भेट द्या.
