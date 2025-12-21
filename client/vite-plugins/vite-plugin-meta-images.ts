@@ -61,19 +61,6 @@ function ensureUrlWithProtocol(value: string) {
 }
 
 function getDeploymentUrl(): string | null {
-  // Keep backward compatibility with Replit vars if present
-  if (process.env.REPLIT_INTERNAL_APP_DOMAIN) {
-    const url = ensureUrlWithProtocol(process.env.REPLIT_INTERNAL_APP_DOMAIN);
-    log('[meta-images] using internal app domain:', url);
-    return url;
-  }
-
-  if (process.env.REPLIT_DEV_DOMAIN) {
-    const url = ensureUrlWithProtocol(process.env.REPLIT_DEV_DOMAIN);
-    log('[meta-images] using dev domain:', url);
-    return url;
-  }
-
   // Vercel sets `VERCEL_URL` without protocol
   if (process.env.VERCEL_URL) {
     const url = ensureUrlWithProtocol(process.env.VERCEL_URL);
